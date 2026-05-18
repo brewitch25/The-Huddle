@@ -1,0 +1,1 @@
+# Aca se dibuja el tablero y se piden los mivimientos al usuario, interfaz de la consola
