@@ -43,3 +43,14 @@ class Gato(Entidad):
     def __init__(self, x, y):
         super().__init__(x, y, "🐱")
 
+    def calcularMovimiento(self, pos_raton):
+        rx, ry = pos_raton
+        nx, ny = self._x, self._y       # Posicion gato (nx, posicion actual en el eje X, ny lo mismo pero en posicion Y)
+
+        if nx < rx: nx += 1
+        elif nx > rx: nx -= 1
+        elif ny < ry: ny += 1
+        elif ny > ry : ny -= 1
+        return nx, ny
+
+
