@@ -26,3 +26,20 @@ class Entidad(ABC):
         self._x = nueva_x
         self._y = nueva_y
 
+# Aca se aplica herencia
+class Raton(Entidad):
+    def __init__(self, x, y):
+        super().__init__(x, y, "🐭")
+    
+    def calcularMovimiento(self, direccion_teclado):
+        nx, ny = self._x, self._y
+        if direccion_teclado == "W": ny -= 1        # Arriba
+        if direccion_teclado == "S": ny += 1        # Abajo
+        if direccion_teclado == "A": nx -= 1        # Izquierda
+        if direccion_teclado == "D": nx += 1        # Derecha
+        return nx, ny
+    
+class Gato(Entidad):
+    def __init__(self, x, y):
+        super().__init__(x, y, "🐱")
+
