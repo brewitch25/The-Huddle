@@ -45,12 +45,17 @@ class Gato(Entidad):
 
     def calcularMovimiento(self, pos_raton):
         rx, ry = pos_raton
-        nx, ny = self._x, self._y       # Posicion gato (nx, posicion actual en el eje X, ny lo mismo pero en posicion Y)
+        gx, gy = self._x, self._y       # Posicion gato (gx, posicion actual en el eje X, gy lo mismo pero en posicion Y)
 
-        if nx < rx: nx += 1
-        elif nx > rx: nx -= 1
-        elif ny < ry: ny += 1
-        elif ny > ry : ny -= 1
-        return nx, ny
+        if gx < rx: gx += 1
+        elif gx > rx: gx -= 1
+        elif gy < ry: gy += 1
+        elif gy > ry : gy -= 1
+        return gx, gy
 
+class Queso(Entidad):
+    def __init__(self, x, y):
+        super().__init__(x, y, "🧀")
 
+    def calcularMovimiento(self, *args):
+        return self._x, self._y             # Siempre se mantiene en su misma posicion
