@@ -56,7 +56,7 @@ class UIConsole:
     @staticmethod
     def pedirMovimientoRaton():
         """
-        Atrapa la direccion que el usuario ingresa para mover el raton
+        Toma la direccion que el usuario ingresa para mover el raton
         """
         print("Mover al raton: W = Arriba - S = Abajo - A = Izquierda - D = derecha")
         return input("Introduce los movimientos: ").upper()
