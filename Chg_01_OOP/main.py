@@ -3,7 +3,7 @@ import os
 
 class UIConsole:
     @staticmethod
-    def solicitarTamanoTablero():
+    def solicitar_tamano_tablero():
         """
         Pide al usuario que ingrese tamaño del tablero, no debe ser menor a 5x5
         Uso de try, except para asegurar que ingrese solo numeros enteros
@@ -54,7 +54,7 @@ class UIConsole:
         print("\n" + "-" * (tamañoTablero * 2))
 
     @staticmethod
-    def pedirMovimientoRaton():
+    def pedir_movimiento_raton():
         """
         Toma la direccion que el usuario ingresa para mover el raton
         """
