@@ -19,7 +19,7 @@ class UIConsole:
                 print("Ingrese un numero entero valido")
     
     @staticmethod
-    def mostrar_tablero(gato, raton, queso, tamañoTablero):
+    def mostrar_tablero(gato, raton, queso, tamaño_tablero):
         """
         Dibuja el tablero en la consola, fila por fila
         Se utiliza emojis para rellenar los espacios vacios
@@ -35,9 +35,9 @@ class UIConsole:
         posicion_queso = queso.posicion
 
         # Recorremos la matriz por fila (eje Y) y por columna (Eje X)
-        for fila in range(tamañoTablero):
+        for fila in range(tamaño_tablero):
             linea_tablero = ""
-            for columna in range(tamañoTablero):
+            for columna in range(tamaño_tablero):
                 posicion_actual = (columna, fila)
                 
                 # Verificamos si hay algun personaje en la coordenada
@@ -51,7 +51,7 @@ class UIConsole:
                     linea_tablero += "🟩"
             
             print(linea_tablero)
-        print("\n" + "-" * (tamañoTablero * 2))
+        print("\n" + "-" * (tamaño_tablero * 2))
 
     @staticmethod
     def pedir_movimiento_raton():
