@@ -39,6 +39,26 @@ class UIConsole:
             linea_tablero = ""
             for columna in range(tamañoTablero):
                 posicion_actual = (columna, fila)
-
                 
+                # Verificamos si hay algun personaje en la coordenada
+                if posicion_actual == posicion_raton:
+                    linea_tablero += raton.simbolo
+                elif posicion_actual == posicion_gato:
+                    linea_tablero += gato.simbolo
+                elif posicion_actual == posicion_queso:
+                    linea_tablero += queso.simbolo
+                else:
+                    linea_tablero += "🟩"
+            
+            print(linea_tablero)
+        print("\n" + "-" * (tamañoTablero * 2))
+
+    @staticmethod
+    def pedirMovimientoRaton():
+        """
+        Atrapa la direccion que el usuario ingresa para mover el raton
+        """
+        print("Mover al raton: W = Arriba - S = Abajo - A = Izquierda - D = derecha")
+        return input("Introduce los movimientos: ").upper()
+
 
