@@ -26,8 +26,9 @@ class Game:
 
     def es_posicion_valida(self, x, y):
         """
-
+        Verifica si las coordenadas estan dentro del tablero - Encapsulamiento
         """
-
+        return 0 <= x < self.tamaño_tablero and 0 <= y < self.tamaño_tablero
+    
 
 
