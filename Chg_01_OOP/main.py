@@ -61,4 +61,9 @@ class UIConsole:
         print("Mover al raton: W = Arriba - S = Abajo - A = Izquierda - D = derecha")
         return input("Introduce los movimientos: ").upper()
 
-
+    @staticmethod
+    def mostrar_mensaje(mensaje):
+        """
+        Funcion para imprimir los mensajes en general
+        """
+        print(f"{mensaje}")
