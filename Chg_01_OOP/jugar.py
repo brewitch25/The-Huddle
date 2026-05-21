@@ -16,10 +16,10 @@ class Game:
         self.raton = Raton(limite_maximo, limite_maximo)
 
         # Ubicamos al gato de forma aleatoria en el tablero
-        self.gato = self.inicializar_gato_aleatorio()
+        self.gato = self.ubicar_gato_aleatorio()
 
         # Ubicamos al queso de forma aleatoria en el tablero(evitando al gato y al raton)
-        self.queso = self.inicializar_queso_aleatorio()
+        self.queso = self.ubicar_queso_aleatorio()
 
         # Estado inicial del juego
         self.jugando = True
@@ -60,7 +60,7 @@ class Game:
             
     def verificar_fin_juego(self):
         """
-        Verifica las condiciones de vistoria o derrota
+        Verifica las condiciones de victoria o derrota
         """
         # En caso de derrota(gato atrapo al raton)
         if self.gato.posicion == self.raton.posicion:
