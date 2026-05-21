@@ -73,3 +73,24 @@ class Game:
             UIConsole.mostrar_tablero(self.gato, self.raton, self.queso)
             UIConsole.mostrar_mensaje("Llegaste al queso! Haz ganado el juego!")
             self.jugando = False
+
+    def loop_central(self):
+        """
+        El motor del juego, manejo de turnos
+        """
+        while self.jugando:
+            # Mostrar el estado del juego(matriz)
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso, self.tamaño_tablero)
+
+            # Turno del raton
+            movimiento = UIConsole.pedir_movimiento_raton()
+            proximo_x_raton, proximo_y_raton = self.raton.calcularMovimiento(movimiento)
+
+            # Verificar que el raton se pueda mover, sin chocar
+            if self.es_posicion_valida(proximo_x_raton, proximo_y_raton):
+                self.raton.mover(proximo_x_raton, proximo_y_raton)
+
+            # Verificar que el raton gano antes de que se mueva el gato
+            self.verificar_fin_juego()
+            if not self.jugando:
+                break
