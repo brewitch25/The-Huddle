@@ -18,7 +18,7 @@ class Entidad(ABC):
         return self._simbolo
     
     @abstractmethod
-    def calcularMovimiento(self, *args):
+    def calcular_movimiento(self, *args):
         """Cada entidad calcula su movimiento a su manera"""
         pass
 
@@ -32,7 +32,7 @@ class Raton(Entidad):
     def __init__(self, x, y):
         super().__init__(x, y, "🐭")
     
-    def calcularMovimiento(self, direccion_teclado):
+    def calcular_movimiento(self, direccion_teclado):
         nx, ny = self._x, self._y
         if direccion_teclado == "W": ny -= 1        # Arriba
         if direccion_teclado == "S": ny += 1        # Abajo
@@ -44,7 +44,7 @@ class Gato(Entidad):
     def __init__(self, x, y):
         super().__init__(x, y, "🐱")
 
-    def calcularMovimiento(self, pos_raton):
+    def calcular_movimiento(self, pos_raton):
         rx, ry = pos_raton
         gx, gy = self._x, self._y       # Posicion gato (gx, posicion actual en el eje X, gy lo mismo pero en posicion Y)
 
@@ -58,5 +58,5 @@ class Queso(Entidad):
     def __init__(self, x, y):
         super().__init__(x, y, "🧀")
 
-    def calcularMovimiento(self, *args):
+    def calcular_movimiento(self, *args):
         return self._x, self._y             # Siempre se mantiene en su misma posicion
