@@ -1,6 +1,6 @@
 # Aca se manejan los turnos y las condiciones de victoria
 import random
-from personajes import Gato, Raton, Queso
+from personajes import  Raton, Gato, Queso
 from main import UIConsole
 
 class Game:
@@ -42,5 +42,18 @@ class Game:
 
             # Si el gaton no coincide con la posicion del raton, se crea el personaje
             if posicion_posible != self.raton.posicion:
-                return self.Gato(aleatorio_x, aleatorio_y)
+                return Gato(aleatorio_x, aleatorio_y)
 
+    def ubicar_queso_aleatorio(self):
+        """
+        Posiciona de manera aleatoria el queso en el tablero, verificar que el queso no aparezca en 
+        la misma posicion que el gato y el raton
+        """
+        while True:
+            aleatorio_x = random.randint(0, self.tamaño_tablero - 1)
+            aleatorio_y = random.randint(0, self.tamaño_tablero - 1)
+            posicion_posible = (aleatorio_x, aleatorio_y)
+
+            # Verificar que el queso no este en la misma posicion del gato o del raton 
+            if posicion_posible != self.gato.posicion and posicion_posible != self.raton.posicion:
+                return Queso(aleatorio_x, aleatorio_y)
