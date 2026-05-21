@@ -104,3 +104,10 @@ class Game:
             
             # Verificar que el gato atrapo al raton
             self.verificar_fin_juego()
+
+"""
+Ejecucion del juego
+"""
+if __name__ == "__main__":
+    juego = Game()
+    juego.loop_central()
