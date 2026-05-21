@@ -13,6 +13,7 @@ class Entidad(ABC):
     def posicion(self):
         return(self._x, self._y)
     
+    @property
     def simbolo(self):
         return self._simbolo
     
