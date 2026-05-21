@@ -30,5 +30,17 @@ class Game:
         """
         return 0 <= x < self.tamaño_tablero and 0 <= y < self.tamaño_tablero
     
+    def ubicar_gato_aleatorio(self):
+        """
+        Posiciona de manera aleatoria al gato en el tablero, evitando que aparezca en la misma
+        posicion que el raton al iniciar el juego
+        """
+        while True:
+            aleatorio_x = random.randint(0, self.tamaño_tablero - 1)
+            aleatorio_y = random.randint(0, self.tamaño_tablero - 1)
+            posicion_posible = (aleatorio_x, aleatorio_y)
 
+            # Si el gaton no coincide con la posicion del raton, se crea el personaje
+            if posicion_posible != self.raton.posicion:
+                return self.Gato(aleatorio_x, aleatorio_y)
 
