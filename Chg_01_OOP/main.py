@@ -2,16 +2,19 @@
 import os
 
 class UIConsole:
+
+    TAMANHO_MINIMO = 5
+
     @staticmethod
     def solicitar_tamano_tablero():
         """
-        Pide al usuario que ingrese tamaño del tablero, no debe ser menor a 5x5
+        Pide al usuario que ingrese tamaño del tablero, no debe ser menor a la constante TAMANHO_MINIMO
         Uso de try, except para asegurar que ingrese solo numeros enteros
         """
         while True:
             try: 
-                tablero = int(input("Introduce el tamaño del tablero(minimo 5): "))
-                if tablero >= 5:
+                tablero = int(input(f"Introduce el tamaño del tablero(minimo {UIConsole.TAMANHO_MINIMO}): "))
+                if tablero >= UIConsole.TAMANHO_MINIMO:
                     return tablero
                 else:
                     print("Tablero muy pequeño, ingrese otro numero")
