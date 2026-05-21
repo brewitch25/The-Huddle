@@ -57,3 +57,19 @@ class Game:
             # Verificar que el queso no este en la misma posicion del gato o del raton 
             if posicion_posible != self.gato.posicion and posicion_posible != self.raton.posicion:
                 return Queso(aleatorio_x, aleatorio_y)
+            
+    def verificar_fin_juego(self):
+        """
+        Verifica las condiciones de vistoria o derrota
+        """
+        # En caso de derrota(gato atrapo al raton)
+        if self.gato.posicion == self.raton.posicion:
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso, self.tamaño_tablero)
+            UIConsole.mostrar_mensaje("Haz sido atrapado! Termino el juego :(")
+            self.jugando = False
+        
+        # En caso de vistoria(raton llego el queso)
+        if self.raton.posicion == self.queso.posicion:
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso)
+            UIConsole.mostrar_mensaje("Llegaste al queso! Haz ganado el juego!")
+            self.jugando = False
