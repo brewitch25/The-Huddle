@@ -1,4 +1,4 @@
-# Aca se manejan los turnos y las condiciones de victoria
+# Aca se manejan los turnos y las condiciones de victoria, ejecucion del juego
 import random
 from personajes import  Raton, Gato, Queso
 from render import UIConsole
