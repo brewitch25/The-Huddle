@@ -1,72 +1,113 @@
-# Aca se dibuja el tablero y se piden los mivimientos al usuario, interfaz de la consola
-import os
+# Aca se manejan los turnos y las condiciones de victoria
+import random
+from personajes import  Raton, Gato, Queso
+from Chg_01_OOP.render import UIConsole
 
-class UIConsole:
-
-    TAMANHO_MINIMO = 5
-
-    @staticmethod
-    def solicitar_tamano_tablero():
+class Game:
+    def __init__(self):
         """
-        Pide al usuario que ingrese tamaño del tablero, no debe ser menor a la constante TAMANHO_MINIMO
-        Uso de try, except para asegurar que ingrese solo numeros enteros
+        Constructor del terreno de juego
+        """
+        # Solicitud del tamaño de la matriz de juego
+        self.tamaño_tablero =  UIConsole.solicitar_tamano_tablero()
+        
+        # Ubicamos al raton en la esquina inferior derecha
+        limite_maximo = self.tamaño_tablero - 1
+        self.raton = Raton(limite_maximo, limite_maximo)
+
+        # Ubicamos al gato de forma aleatoria en el tablero
+        self.gato = self.ubicar_gato_aleatorio()
+
+        # Ubicamos al queso de forma aleatoria en el tablero(evitando al gato y al raton)
+        self.queso = self.ubicar_queso_aleatorio()
+
+        # Estado inicial del juego
+        self.jugando = True
+
+    def es_posicion_valida(self, x, y):
+        """
+        Verifica si las coordenadas estan dentro del tablero - Encapsulamiento
+        """
+        return 0 <= x < self.tamaño_tablero and 0 <= y < self.tamaño_tablero
+    
+    def ubicar_gato_aleatorio(self):
+        """
+        Posiciona de manera aleatoria al gato en el tablero, evitando que aparezca en la misma
+        posicion que el raton al iniciar el juego
         """
         while True:
-            try: 
-                tablero = int(input(f"Introduce el tamaño del tablero(minimo {UIConsole.TAMANHO_MINIMO}): "))
-                if tablero >= UIConsole.TAMANHO_MINIMO:
-                    return tablero
-                else:
-                    print("Tablero muy pequeño, ingrese otro numero")
-            except ValueError:
-                print("Ingrese un numero entero valido")
-    
-    @staticmethod
-    def mostrar_tablero(gato, raton, queso, tamaño_tablero):
+            aleatorio_x = random.randint(0, self.tamaño_tablero - 1)
+            aleatorio_y = random.randint(0, self.tamaño_tablero - 1)
+            posicion_posible = (aleatorio_x, aleatorio_y)
+
+            # Si el gaton no coincide con la posicion del raton, se crea el personaje
+            if posicion_posible != self.raton.posicion:
+                return Gato(aleatorio_x, aleatorio_y)
+
+    def ubicar_queso_aleatorio(self):
         """
-        Dibuja el tablero en la consola, fila por fila
-        Se utiliza emojis para rellenar los espacios vacios
+        Posiciona de manera aleatoria el queso en el tablero, verificar que el queso no aparezca en 
+        la misma posicion que el gato y el raton
         """
-        #limpia la terminal para que aparezaca un solo tablero "animado" en el mismo lugar
-        os.system('cls' if os.name == 'nt' else 'clear')
+        while True:
+            aleatorio_x = random.randint(0, self.tamaño_tablero - 1)
+            aleatorio_y = random.randint(0, self.tamaño_tablero - 1)
+            posicion_posible = (aleatorio_x, aleatorio_y)
 
-        print("Tu objetivo! Llegar al queso antes de que te atrape el gato!")
-
-        # Obtenemos las posiciones actuales, desde el encapsulamiento de cada personaje(Entidad)
-        posicion_gato = gato.posicion
-        posicion_raton = raton.posicion
-        posicion_queso = queso.posicion
-
-        # Recorremos la matriz por fila (eje Y) y por columna (Eje X)
-        for fila in range(tamaño_tablero):
-            linea_tablero = ""
-            for columna in range(tamaño_tablero):
-                posicion_actual = (columna, fila)
-                
-                # Verificamos si hay algun personaje en la coordenada
-                if posicion_actual == posicion_raton:
-                    linea_tablero += raton.simbolo
-                elif posicion_actual == posicion_gato:
-                    linea_tablero += gato.simbolo
-                elif posicion_actual == posicion_queso:
-                    linea_tablero += queso.simbolo
-                else:
-                    linea_tablero += "🟩"
+            # Verificar que el queso no este en la misma posicion del gato o del raton 
+            if posicion_posible != self.gato.posicion and posicion_posible != self.raton.posicion:
+                return Queso(aleatorio_x, aleatorio_y)
             
-            print(linea_tablero)
-        print("\n" + "-" * (tamaño_tablero * 2))
+    def verificar_fin_juego(self):
+        """
+        Verifica las condiciones de victoria o derrota
+        """
+        # En caso de derrota(gato atrapo al raton)
+        if self.gato.posicion == self.raton.posicion:
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso, self.tamaño_tablero)
+            UIConsole.mostrar_mensaje("Haz sido atrapado! Termino el juego :(")
+            self.jugando = False
+        
+        # En caso de vistoria(raton llego el queso)
+        if self.raton.posicion == self.queso.posicion:
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso)
+            UIConsole.mostrar_mensaje("Llegaste al queso! Haz ganado el juego!")
+            self.jugando = False
 
-    @staticmethod
-    def pedir_movimiento_raton():
+    def loop_central(self):
         """
-        Toma la direccion que el usuario ingresa para mover el raton
+        El motor del juego, manejo de turnos
         """
-        print("Mover al raton: W = Arriba - S = Abajo - A = Izquierda - D = derecha")
-        return input("Introduce los movimientos: ").upper()
+        while self.jugando:
+            # Mostrar el estado del juego(matriz)
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso, self.tamaño_tablero)
 
-    @staticmethod
-    def mostrar_mensaje(mensaje):
-        """
-        Funcion para imprimir los mensajes en general
-        """
-        print(f"{mensaje}")
+            # Turno del raton
+            movimiento = UIConsole.pedir_movimiento_raton()
+            proximo_x_raton, proximo_y_raton = self.raton.calcular_movimiento(movimiento)
+
+            # Verificar que el raton se pueda mover, sin chocar
+            if self.es_posicion_valida(proximo_x_raton, proximo_y_raton):
+                self.raton.mover(proximo_x_raton, proximo_y_raton)
+
+            # Verificar que el raton gano antes de que se mueva el gato
+            self.verificar_fin_juego()
+            if not self.jugando:
+                break
+
+            # Turno del gato
+            proximo_x_gato, proximo_y_gato = self.gato.calcular_movimiento(self.raton.posicion)
+
+            #Verificar que el gato se mueva sin chocar por los bordes de la matriz
+            if self.es_posicion_valida(proximo_x_gato, proximo_y_gato):
+                self.gato.mover(proximo_x_gato, proximo_y_gato)
+            
+            # Verificar que el gato atrapo al raton
+            self.verificar_fin_juego()
+
+"""
+Ejecucion del juego
+"""
+if __name__ == "__main__":
+    juego = Game()
+    juego.loop_central()
