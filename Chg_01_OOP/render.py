@@ -62,7 +62,12 @@ class UIConsole:
         Toma la direccion que el usuario ingresa para mover el raton
         """
         print("Mover al raton: W = Arriba - S = Abajo - A = Izquierda - D = derecha")
-        return input("Introduce los movimientos: ").upper()
+        coordenadas = ["W", "S", "A", "D"]
+        usuario = input("Introduce los movimientos: ").upper()
+        while usuario not in coordenadas:
+            print("Opcion no valida para el movimiento")
+            usuario = input("Introduce los movimientos: ").upper() 
+        return usuario
 
     @staticmethod
     def mostrar_mensaje(mensaje):
