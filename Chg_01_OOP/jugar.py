@@ -84,7 +84,7 @@ class Game:
 
             # Turno del raton
             movimiento = UIConsole.pedir_movimiento_raton()
-            proximo_x_raton, proximo_y_raton = self.raton.calcularMovimiento(movimiento)
+            proximo_x_raton, proximo_y_raton = self.raton.calcular_movimiento(movimiento)
 
             # Verificar que el raton se pueda mover, sin chocar
             if self.es_posicion_valida(proximo_x_raton, proximo_y_raton):
@@ -94,3 +94,13 @@ class Game:
             self.verificar_fin_juego()
             if not self.jugando:
                 break
+
+            # Turno del gato
+            proximo_x_gato, proximo_y_gato = self.gato.calcular_movimiento(self.raton.posicion)
+
+            #Verificar que el gato sse muva sin chocar por los bordes de la matriz
+            if self.es_posicion_valida(proximo_x_gato, proximo_y_gato):
+                self.gato.mover(proximo_x_gato, proximo_y_gato)
+            
+            # Verificar que el gato atrapo al raton
+            self.verificar_fin_juego()
