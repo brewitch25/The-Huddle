@@ -1,7 +1,7 @@
 # Aca se manejan los turnos y las condiciones de victoria
 import random
 from personajes import  Raton, Gato, Queso
-from Chg_01_OOP.render import UIConsole
+from render import UIConsole
 
 class Game:
     def __init__(self):
