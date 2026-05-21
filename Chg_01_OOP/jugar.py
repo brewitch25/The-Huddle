@@ -98,7 +98,7 @@ class Game:
             # Turno del gato
             proximo_x_gato, proximo_y_gato = self.gato.calcular_movimiento(self.raton.posicion)
 
-            #Verificar que el gato sse muva sin chocar por los bordes de la matriz
+            #Verificar que el gato se mueva sin chocar por los bordes de la matriz
             if self.es_posicion_valida(proximo_x_gato, proximo_y_gato):
                 self.gato.mover(proximo_x_gato, proximo_y_gato)
             
