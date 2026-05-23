@@ -33,11 +33,15 @@ class Raton(Entidad):
         super().__init__(x, y, "🐭")
     
     def calcular_movimiento(self, direccion_teclado):
+        """
+        Calcula el movimiento del raton de acuerdo al input del usuario, que son los siguientes:
+        W= arriba, S= abajo, A= izquierda, D= derecha
+        """
         nx, ny = self._x, self._y
-        if direccion_teclado == "W": ny -= 1        # Arriba
-        if direccion_teclado == "S": ny += 1        # Abajo
-        if direccion_teclado == "A": nx -= 1        # Izquierda
-        if direccion_teclado == "D": nx += 1        # Derecha
+        if direccion_teclado == "W": ny -= 1        
+        if direccion_teclado == "S": ny += 1        
+        if direccion_teclado == "A": nx -= 1        
+        if direccion_teclado == "D": nx += 1        
         return nx, ny
     
 class Gato(Entidad):
@@ -45,6 +49,10 @@ class Gato(Entidad):
         super().__init__(x, y, "🐱")
 
     def calcular_movimiento(self, pos_raton):
+        """
+        Calcula los movimientos del gato, se mueve sin necesidad de inputs del usuario, 
+        usa las coordenadas del raton para intentar atrapara al raton
+        """
         rx, ry = pos_raton
         gx, gy = self._x, self._y       # Posicion gato (gx, posicion actual en el eje X, gy lo mismo pero en posicion Y)
 
@@ -59,4 +67,8 @@ class Queso(Entidad):
         super().__init__(x, y, "🧀")
 
     def calcular_movimiento(self, *args):
-        return self._x, self._y             # Siempre se mantiene en su misma posicion
+        """
+        No calcula movimientos, es una entidad estatica, se mantiene en la misma posicion
+        durante la ejecucion del juego
+        """
+        return self._x, self._y             
