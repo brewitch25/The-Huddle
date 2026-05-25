@@ -70,7 +70,7 @@ class Game:
         
         # En caso de vistoria(raton llego el queso)
         if self.raton.posicion == self.queso.posicion:
-            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso)
+            UIConsole.mostrar_tablero(self.gato, self.raton, self.queso, self.tamaño_tablero)
             UIConsole.mostrar_mensaje("Llegaste al queso! Haz ganado el juego!")
             self.jugando = False
 
