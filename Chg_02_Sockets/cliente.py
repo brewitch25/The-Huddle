@@ -16,12 +16,13 @@ def recibir_mensaje(cliente_socket):
             if not mensaje:
                 print("Conexion cerrada por el servidor")
                 break
+            print(f"{mensaje.decode('utf-8')}")
         except:
             print("Error al recibir los datos")
             break
 
-        print("Saliendo del modo escucha")
-        sys.exit()
+    print("Saliendo del modo escucha")
+    sys.exit()
 
 def intentos_conectar():
     """
@@ -50,7 +51,6 @@ def iniciar_cliente():
     
     # Creamos hilos para recibir mensajes en 2do plano
     hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
-    hilo_recibir.daemon = True
     hilo_recibir.start()
 
     # Hilo principal
@@ -59,10 +59,9 @@ def iniciar_cliente():
             texto = input("Si deseas salir, escribi 'salir' \nPodes escribir aca: ")
             if texto.lower() == 'salir':
                 break
-        
+            cliente.send(texto.encode('utf-8'))
         except:
             print("Error al enviar mensaje")
-
     cliente.close()
     print("Te has desconectado del chat")
 
