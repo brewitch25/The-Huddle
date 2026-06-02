@@ -12,7 +12,7 @@ def crear_broadcast(mensaje, cliente_origen):
     """
     Envia mensaje a todos los clientes, excepto al que lo envio
     """
-    for cliente in cliente:
+    for cliente in clientes:
         if cliente != cliente_origen:
             try:
                 cliente.send(mensaje)
