@@ -16,7 +16,7 @@ def recibir_mensaje(cliente_socket):
             if not mensaje:
                 print("Conexion cerrada por el servidor")
                 break
-
+            #print(f"{mensaje.decode('utf-8')}")     #Mostrar en la pantalla(decodificado de byte a txt)
         except:
             print("Error al recibir los datos")
             break
@@ -41,3 +41,34 @@ def intentos_conectar():
             time.sleep(3)
 
     return None
+
+def iniciar_cliente():
+
+    cliente = intentos_conectar()
+    if not cliente:
+        print("No se pudo establecer conexion")
+        return
+    
+    # Creamos hilos para recibir mensajes en 2do plano
+    hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
+    hilo_recibir.daemon = True
+    hilo_recibir.start()
+
+    # Hilo principal
+    print("Podes escribir. Para terminar escribi 'salir' ")
+    while True:
+        try:
+            texto = input()
+            if texto.lower() == 'salir':
+                break
+        
+        except KeyboardInterrupt:
+            break
+        except:
+            print("Error al enviar mensaje")
+
+    cliente.close()
+    print("Te has desconectado del chat")
+
+if __name__ == "__main__":
+    iniciar_cliente()
