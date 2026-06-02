@@ -18,3 +18,17 @@ def crear_broadcast(mensaje, cliente_origen):
                 cliente.send(mensaje)
             except:
                 remover_cliente(cliente)    # Si falla al enviar
+
+def manipular_cliente(cliente_socket):
+    """
+    Funcion que se encarga de escuchar los mensajes del cliente
+    """
+    while True:
+        try:
+            mensaje = cliente_socket.recv(1024)
+            if not mensaje:
+                break
+            crear_broadcast(mensaje, cliente_socket)
+        except:
+            break
+    remover_cliente(cliente_socket) 
