@@ -32,3 +32,17 @@ def manipular_cliente(cliente_socket):
         except:
             break
     remover_cliente(cliente_socket) 
+
+def remover_cliente(cliente_socket):
+    """
+    Elimina al cliente de la lista y cierra el socket del mismo
+    """
+    if cliente_socket in clientes:
+        clientes.remove(cliente_socket)
+        try:
+            cliente_socket.close()
+        except:
+            pass
+        print(f"Un cliente se retiro, quedan {len(clientes)}")
+
+        
