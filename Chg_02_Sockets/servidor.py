@@ -66,7 +66,7 @@ def iniciar_servidor():
             clientes.append(cliente_socket)
 
             # Usamos thread (hilo para atender a clientes en paralelo)
-            hilo = threading.Thread(target=manipular_cliente, args=(cliente_socket))
+            hilo = threading.Thread(target=manipular_cliente, args=(cliente_socket,))
 
             #EL hilo desaparece si el programa principal se cierra
             hilo.daemon = True          
