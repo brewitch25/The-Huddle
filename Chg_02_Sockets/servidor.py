@@ -57,4 +57,25 @@ def iniciar_servidor():
     except Exception as e:
         print(f"Error al iniciar el servidor{e}")
         return
+    while True:
+        try:
+            cliente_socket, direccion = socket_servidor.accept()
+            print(f"Nueva conexion establecida desde{direccion}")
+
+            #Guardamos al cliente en la lista
+            clientes.append(cliente_socket)
+
+            # Usamos thread (hilo para atender a clientes en paralelo)
+            hilo = threading.Thread(target=manipular_cliente, args=(cliente_socket))
+            
+            #EL hilo desaparece si el programa principal se cierra
+            hilo.daemon = True          
+            hilo.start()
+
+        except KeyboardInterrupt:
+            print("Apagando el servidor")
+            break
+        except:
+            print("Ocurrio un error al aceptar la conexion")
+
 
