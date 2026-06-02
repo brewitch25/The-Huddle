@@ -67,7 +67,7 @@ def iniciar_servidor():
 
             # Usamos thread (hilo para atender a clientes en paralelo)
             hilo = threading.Thread(target=manipular_cliente, args=(cliente_socket))
-            
+
             #EL hilo desaparece si el programa principal se cierra
             hilo.daemon = True          
             hilo.start()
@@ -78,4 +78,5 @@ def iniciar_servidor():
         except:
             print("Ocurrio un error al aceptar la conexion")
 
-
+if __name__ == "__main__":
+    iniciar_servidor()
