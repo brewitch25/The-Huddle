@@ -45,4 +45,16 @@ def remover_cliente(cliente_socket):
             pass
         print(f"Un cliente se retiro, quedan {len(clientes)}")
 
-        
+def iniciar_servidor():
+    """
+    Funcion que crea e inicia el servidor
+    """
+    socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        socket_servidor.bind((HOST, PORT))
+        socket_servidor.listen()
+        print(f"El servidor esta escuchando en el {HOST}:{PORT}")
+    except Exception as e:
+        print(f"Error al iniciar el servidor{e}")
+        return
+
