@@ -7,26 +7,32 @@ HOST = '127.0.0.1'
 PORT = 50001
 
 # para verificar que el servidor sigue activo
-servidor_vivo = True
+servidor_activo = True
 
 def recibir_mensaje(cliente_socket):
     """
     Se encarga de escuchar lo que llega del servidor
     """
-    global servidor_vivo
+    global servidor_activo
     while True:
         try:
-            mensaje = cliente.recv(1024)
+            mensaje = cliente_socket.recv(1024)
             if not mensaje:
                 print("Conexion cerrada por el servidor")
                 break
             print(f"{mensaje.decode('utf-8')}")
         except:
-            print("Error al recibir los datos")
-            intentos_conectar(cliente)
+            break       # Caso: caida repentina del servidor
+    
+    #Verificar que salimos del while, servidor fuera
+    print("Se perdio conexion con el servidor")     
+    servidor_activo = False
 
-    print("Saliendo del modo escucha")
-    sys.exit()
+    # Cierre de socket para liberar espacio
+    try:
+        cliente_socket.close()
+    except:
+        pass
 
 def intentos_conectar(cliente):
     """
