@@ -34,20 +34,21 @@ def recibir_mensaje(cliente_socket):
     except:
         pass
 
-def intentos_conectar(cliente):
+def intentar_conectar():
     """
     Intentamos conectar con el servidor con intentos
     """
     intentos = 3
 
     for i in range(intentos):
+        cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             cliente.connect((HOST, PORT))
             print("Conexion exitosa con el cliente")
             return cliente
         except Exception as e:
-            print(f"Intentos {i+1} fallidos, Reintentando en 5 seg")
-            time.sleep(5)
+            print(f"Intentos {i+1} fallidos, Reintentando en 3 seg")
+            time.sleep(3)
 
     return None
 
@@ -57,24 +58,45 @@ def iniciar_cliente():
     """
     global servidor_activo
     nombre_cliente = input("Por favor, ingrese su nombre: ")
-    
-    # Creamos hilos para recibir mensajes en 2do plano
-    hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
-    hilo_recibir.start()
 
-    # Hilo principal
     while True:
-        try:
-            texto = input("Si deseas salir, escribi 'salir' \nPodes escribir aca: ")
-            if texto.lower() == 'salir':
+        servidor_activo = True
+
+        cliente = intentar_conectar()
+
+        # Creamos hilos para recibir mensajes en 2do plano
+        hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
+        hilo_recibir.start()
+
+        # Hilo principal
+        while servidor_activo:
+            try:
+                # Caso de servidor desconectado
+                if not servidor_activo:
+                    break
+
+                texto = input("Si deseas salir, escribi 'salir' \nPodes escribir aca: ")
+
+                # Caso: servidor inactivo no envia el mensaje
+                if not servidor_activo:
+                    break
+
+                if texto.lower() == 'salir':
+                    cliente.close()
+                    sys.exit()
+
+                mensaje_cliente = f"{nombre_cliente}, {texto}"
+                cliente.send(mensaje_cliente.encode('utf-8'))
+            except(KeyboardInterrupt, SystemExit):
+                cliente.close()
+                sys.exit()
+            # Manejar problemas de conexion del servidor
+            except:
+                servidor_activo = False
                 break
-            cliente.send(texto.encode('utf-8'))
-        except:
-            print("Error al enviar mensaje")
-            intentos_conectar(cliente)
-    cliente.close()
-    print("Te has desconectado del chat")
-    
+
+        print("Iniciando recuperacion automatica")
+        
 
 if __name__ == "__main__":
     iniciar_cliente()
