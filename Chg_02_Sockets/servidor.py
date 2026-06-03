@@ -49,7 +49,7 @@ def iniciar_servidor():
     """
     Funcion que crea e inicia el servidor
     """
-    socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     try:
         socket_servidor.bind((HOST, PORT))
         socket_servidor.listen()
@@ -61,6 +61,8 @@ def iniciar_servidor():
         try:
             cliente_socket, direccion = socket_servidor.accept()
             print(f"Nueva conexion establecida desde{direccion}")
+
+            
 
             #Guardamos al cliente en la lista
             clientes.append(cliente_socket)
