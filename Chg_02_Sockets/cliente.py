@@ -6,48 +6,53 @@ import time
 HOST = '127.0.0.1'
 PORT = 50001
 
+# para verificar que el servidor sigue activo
+servidor_vivo = True
+
 def recibir_mensaje(cliente_socket):
     """
     Se encarga de escuchar lo que llega del servidor
     """
+    global servidor_vivo
     while True:
         try:
-            mensaje = cliente_socket.recv(1024)
+            mensaje = cliente.recv(1024)
             if not mensaje:
                 print("Conexion cerrada por el servidor")
                 break
             print(f"{mensaje.decode('utf-8')}")
         except:
             print("Error al recibir los datos")
-            break
+            intentos_conectar(cliente)
 
     print("Saliendo del modo escucha")
     sys.exit()
 
-def intentos_conectar():
+def intentos_conectar(cliente):
     """
     Intentamos conectar con el servidor con intentos
     """
-    cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    intentos = 3
+    intentos = 10
 
     for i in range(intentos):
         try:
             cliente.connect((HOST, PORT))
             print("Conexion exitosa con el cliente")
             return cliente
-        except:
-            print(f"Intentos {i+1} fallidos, Reintentando en 3 seg")
-            time.sleep(3)
+        except Exception as ex:
+            print(ex)
+            print(f"Intentos {i+1} fallidos, Reintentando en 5 seg")
+            time.sleep(5)
 
     return None
 
 def iniciar_cliente():
+    cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    cliente = intentos_conectar()
+    cliente = intentos_conectar(cliente)
     if not cliente:
         print("No se pudo establecer conexion")
-        return
+        return 
     
     # Creamos hilos para recibir mensajes en 2do plano
     hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
@@ -62,8 +67,10 @@ def iniciar_cliente():
             cliente.send(texto.encode('utf-8'))
         except:
             print("Error al enviar mensaje")
+            intentos_conectar(cliente)
     cliente.close()
     print("Te has desconectado del chat")
+    
 
 if __name__ == "__main__":
     iniciar_cliente()
