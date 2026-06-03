@@ -38,27 +38,25 @@ def intentos_conectar(cliente):
     """
     Intentamos conectar con el servidor con intentos
     """
-    intentos = 10
+    intentos = 3
 
     for i in range(intentos):
         try:
             cliente.connect((HOST, PORT))
             print("Conexion exitosa con el cliente")
             return cliente
-        except Exception as ex:
-            print(ex)
+        except Exception as e:
             print(f"Intentos {i+1} fallidos, Reintentando en 5 seg")
             time.sleep(5)
 
     return None
 
 def iniciar_cliente():
-    cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    cliente = intentos_conectar(cliente)
-    if not cliente:
-        print("No se pudo establecer conexion")
-        return 
+    """
+    Funcion para conectar y enviar mensajes
+    """
+    global servidor_activo
+    nombre_cliente = input("Por favor, ingrese su nombre: ")
     
     # Creamos hilos para recibir mensajes en 2do plano
     hilo_recibir = threading.Thread(target=recibir_mensaje, args=(cliente,))
