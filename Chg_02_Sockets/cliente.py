@@ -38,7 +38,7 @@ def intentar_conectar():
     """
     Intentamos conectar con el servidor con intentos
     """
-    intentos = 3
+    intentos = 5
 
     for i in range(intentos):
         cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,6 +47,7 @@ def intentar_conectar():
             print("Conexion exitosa con el cliente")
             return cliente
         except Exception as e:
+            print(e)
             print(f"Intentos {i+1} fallidos, Reintentando en 3 seg")
             time.sleep(3)
 
