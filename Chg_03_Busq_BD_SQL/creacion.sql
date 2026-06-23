@@ -44,7 +44,7 @@ CREATE TABLE order_items (
     unit_price decimal (10, 2) NOT NULL,
     discount_rate decimal (10, 2) NOT NULL,
     line_total decimal(10,2) not null,
-    constraint fk_order foreign key (order_id) references orders(order_id),
+    constraint fk_orders_order_items foreign key (order_id) references orders (order_id),
     constraint fk_product foreign key (product_id) references products (product_id)
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE payments (
     payment_status varchar(25) not null,
     amound decimal(10, 2) not null,
     currency varchar(25) not null,
-    constraint fk_order foreign key (order_id) references orders (order_id)
+    constraint fk_orders_payments foreign key (order_id) references orders (order_id)
 );
 
 CREATE TABLE order_status_history (
@@ -66,8 +66,8 @@ CREATE TABLE order_status_history (
     changed_at timestamp not null,
     changed_by varchar(25) not null,
     reason varchar(25),
-    constraint fk_order foreign key (order_id) references orders (order_id)
-)
+    constraint fk_orders_order_status_history foreign key (order_id) references orders (order_id)
+);
 
 
 CREATE TABLE order_audit (
@@ -78,6 +78,6 @@ CREATE TABLE order_audit (
     new_value varchar(25) not null,
     changed_at timestamp not null,
     changed_by varchar(25) not null,
-    constraint fk_order foreign key (order_id) references orders (order_id)
-)
+    constraint fk_orders_order_audit foreign key (order_id) references orders (order_id)
+);
 
