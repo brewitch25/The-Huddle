@@ -25,14 +25,15 @@ CREATE TABLE products (
 
 CREATE TABLE orders (
     order_id int primary key,
-    foreign key (customer_id) NOT NULL,
+    customer_id int NOT NULL,
     order_datetime timestamp NOT NULL,
     channel varchar(63) NOT NULL,
     currency varchar(25) NOT NULL,
     current_status varchar(25) NOT NULL,
     order_total decimal (10, 2) NOT NULL,
     is_active tinyint(1) NOT NULL,
-    deleted_at timestamp
+    deleted_at timestamp,
+    constraint fk_customer foreign key (customer_id) references customers (customer_id)
 );
 
 CREATE TABLE order_items (
