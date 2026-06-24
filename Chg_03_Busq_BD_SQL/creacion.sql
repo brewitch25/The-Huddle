@@ -2,13 +2,13 @@ CREATE TABLE customers(
     customer_id int primary key, 
     full_name varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
-    phone int NOT NULL, 
+    phone varchar(25) NOT NULL, 
     city varchar(50) NOT NULL,
     segment varchar(63) NOT NULL,
     created_at timestamp NOT NULL,
     is_active tinyint(1) NOT NULL, 
     deleted_at timestamp
-);
+); 
 
 CREATE TABLE products (
     product_id int primary key,
@@ -54,7 +54,7 @@ CREATE TABLE payments (
     payment_datetime timestamp not null,
     method varchar(25) not null,
     payment_status varchar(25) not null,
-    amound decimal(10, 2) not null,
+    amount decimal(10, 2) not null,
     currency varchar(25) not null,
     constraint fk_orders_payments foreign key (order_id) references orders (order_id)
 );
