@@ -54,7 +54,7 @@ CREATE TABLE payments (
     payment_datetime timestamp not null,
     method varchar(25) not null,
     payment_status varchar(25) not null,
-    amount decimal(10, 2) not null,
+    amount decimal(10, 2) CHECK (amount > 0) not null,
     currency varchar(25) not null,
     constraint fk_orders_payments foreign key (order_id) references orders (order_id)
 );
@@ -81,3 +81,7 @@ CREATE TABLE order_audit (
     constraint fk_orders_order_audit foreign key (order_id) references orders (order_id)
 );
 
+-- Moficacion de tabla payments para agregar el CHECK (solo valores mayores a 0), en la 
+-- columna amount
+alter table payments 
+add constraint chk_amount_positive check (amount >= 0);
